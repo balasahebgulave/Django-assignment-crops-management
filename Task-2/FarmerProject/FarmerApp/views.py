@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
 from FarmerApp.models import FarmerData , FarmData , ScheduleData
-# days = (datetime.now().date() - crop.sowing_date).days
 
 
 def homepage(request):
@@ -30,20 +29,15 @@ def homepage(request):
 					days = (datetime.now().date() - crop.sowing_date).days
 					shedule_object = ScheduleData.objects.filter(crop = crop)
 					for obj in shedule_object:
-						# print(days,'================',obj.days_after_sowing)
 						if days == obj.days_after_sowing:
 							shedule_data.append(obj)
-							# print(shedule_object)
 			if shedule == 'Tomorrow':
 				for crop in crop_farm_object:
-					days = (datetime.now().date() - crop.sowing_date).days - 2
+					days = (datetime.now().date() - crop.sowing_date).days + 1
 					shedule_object = ScheduleData.objects.filter(crop = crop)
 					for obj in shedule_object:
-						# print(days,'================',obj.days_after_sowing)
 						if days == obj.days_after_sowing:
 							shedule_data.append(obj)
-							# print(shedule_object)
-			# print(shedule)
 			print(shedule_data)
 			context['shedule_data'] = shedule_data
 			return render (request, 'FarmerApp/homepage.html', context)
