@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FarmerProject</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <style type="text/css">
+    	.bgcolor{
+    		background: cornsilk;
+    	}
+    </style>
+</head>
+<body class="container" style="background: lavender;">
+	<center><h2 style="color: darkcyan;">Python Django Assignment</h2></center>
+<div class="row bgcolor">
+	<center><h3>Get Farmer Bill Here</h3></center>
+	<div class="col-md-5">
+		<label>Please Select Name To Get Bill</label>
+		<br>
+		<div class="form-group">
+			<form method="post">
+				{% csrf_token %}
+				<select name="farmer" class="form-control">
+					{% for i in farmers %}
+					<option>{{i.name}}</option>
+					{% endfor %}
+				</select>
+			<br>
+			<button class="btn btn-primary">submit</button>
+			</form>
+		</div>
+	</div>
+	<div class="col-md-7">
+		<label>Final Bill</label>
+		<table class="table table-bordered table-striped">
+			<thead style="background-color: lavender;">
+				
+				<th>FarmerName</th>
+
+				<th>CropName</th>
+				<th>FertilizerName</th>
+				<th>DaysAfterSowing</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Unit</th> 
+
+			</thead>
+			<tbody>
+				{% for i in shedule_object %}
+				<tr>
+					<td>{{i.crop.name.name}}</td>
+					<td>{{i.crop.crop}}</td>
+					<td>{{i.fertilizer}}</td>
+					<td>{{i.days_after_sowing}}</td>
+					<td>{{i.price}}</td>
+					<td>{{i.quantity}}</td>
+					<td>{{i.unit}}</td>
+				</tr>
+				{% endfor %}
+				<tr style="background-color: lavender;">
+					<td colspan="6"><b>Total Amount</b></td>
+					<td><b>{{price}}</b></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+
+<div class="row bgcolor">
+<center><h3>Get Today Or Tomorrow Schedule</h3></center>
+
+	<div class="col-md-5">
+		<label>Click To See Today OR Tomorrow Schedule</label>
+		<br>
+		<div class="form-group">
+			<form method="post">
+				{% csrf_token %}
+				<select name="shedule" class="form-control">
+					<option>Today</option>
+					<option>Tomorrow</option>
+				</select>
+			<br>
+			<button class="btn btn-primary">submit</button>
+			</form>
+		</div>
+	</div>
+
+
+	<div class="col-md-7">
+		<label>See The Schedule</label>
+		<table class="table table-bordered table-striped">
+			<thead style="background-color: lavender;">
+				
+				<th>FarmerName</th>
+				<th>CropName</th>
+				<th>FertilizerName</th>
+				<th>SowingDate</th>
+				<th>DaysAfterSowing</th>
+				<th>Quantity</th>
+				<th>Unit</th> 
+
+			</thead>
+			<tbody>
+				{% for i in shedule_data %}
+				<tr>
+					<td>{{i.crop.name.name}}</td>
+					<td>{{i.crop.crop}}</td>
+					<td>{{i.fertilizer}}</td>
+	            	<td>{{i.crop.sowing_date}}</td>
+					<td>{{i.days_after_sowing}}</td>
+					<td>{{i.quantity}}</td>
+					<td>{{i.unit}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<br>
+<div class="row bgcolor">
+	<center><h3>Farmer Data Table For Advanced Search</h3></center>
+
+    <table id='tabledata' class="table table-bordered table-striped">
+        <thead style="background-color: lavender;">
+        	<tr>
+	            <th>FarmerName</th> 
+	        	<th>PhoneNo</th> 
+	            <th>Language</th>
+
+	            <th>Crop Area</th>
+	            <th>Village</th>
+	            <th>Crop Name</th>
+	            <th>Sowing Date</th> 
+
+	            <th>Days After Sowing</th> 
+	            <th>Fertilizer</th> 
+	            <th>Fertilizer Price</th>
+	            <th>Quantity</th> 
+	            <th>Unit</th> 
+	        </tr>
+        </thead>
+        <tbody>
+        	{% for i in sheduledata %}
+	        	<tr>
+	            	<td>{{i.crop.name.name}}</td>
+	            	<td>{{i.crop.name.phone}}</td> 
+	            	<td>{{i.crop.name.language}}</td> 
+
+	            	<td>{{i.crop.area}}</td>
+	            	<td>{{i.crop.village}}</td>
+	            	<td>{{i.crop.crop}}</td>
+	            	<td>{{i.crop.sowing_date}}</td>
+
+	            	<td>{{i.days_after_sowing}}</td>
+	            	<td>{{i.fertilizer}}</td>
+	            	<td>{{i.price}}</td>
+	            	<td>{{i.quantity}}</td>
+	            	<td>{{i.unit}}</td>
+	        	</tr>
+	        {% endfor %}
+        </tbody>
+
+    </table> 
+</div>
+<br><br><br>
+
+<script >
+    $(document).ready(function(){
+        $('#tabledata').dataTable({});
+    });
+</script>
+</body>
+</html>
